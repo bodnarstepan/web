@@ -46,7 +46,7 @@
         input.addEventListener("keydown", (e) => {
           if (e.key === "Enter") {
             const value = input.value;
-            const num = parseFloat(value);
+            const num = parseFloat(value.replace(',', '.'));
             if (isNaN(num) || num <= 0) {
               label.textContent += value + "\nZadaná hodnota musí být kladné číslo větší než 0. Zkuste to prosím znovu.";
               input.remove();
@@ -66,7 +66,7 @@
 
       const najete_km = await askFloat("Zadejte počet najetých km:");
       const dotankovano = await askFloat("Zadejte množství doplněného paliva v litrech:");
-      const cena_phm = await askFloat("Zadejte cenu paliva v Kč:");
+      const cena_phm = await askFloat("Zadejte cenu za 1 litr paliva v Kč:");
 
       const spotreba = (100 * dotankovano) / najete_km;
       const cena_na_km = (spotreba / 100) * cena_phm;
