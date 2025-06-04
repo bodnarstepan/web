@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Šibenice</title>
+  <link rel="icon" href="obrazky/favicon.ico" type="image/x-icon">
+  <style>
+    body {
+      background-color: #111;
+      color: #0f0;
+      font-family: monospace;
+      padding: 20px;
+      white-space: pre-wrap;
+    }
+    input {
+      background-color: #222;
+      color: #0f0;
+      border: 1px solid #0f0;
+      padding: 5px 10px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+<div id="output"></div>
+<div id="input-section">
+  <label for="user-input">&gt; </label>
+  <input id="user-input" type="text" autocomplete="off" />
+</div>
+
+<script>
+const output = document.getElementById("output");
+const userInput = document.getElementById("user-input");
+
+let fauna = [
+    "albatros", "andulka", "antilopa", "běluha", "burunduk",
+    "chameleon", "chechták", "datel", "delfín", "prase",
+    "havran", "hlemýžď", "housenka", "hraboš", "jeřáb",
+    "jezevec", "kamzík", "kapustňák", "klokan", "kolibřík",
+    "kormorán", "králík", "kráva", "křeček", "kulíšek",
+    "lachtan", "labuť", "lasice", "lasička", "lemur",
+    "levhart", "losos", "mangusta", "makak", "medvěd",
+    "mravenec", "myšák", "netopýr", "nosál", "nosorožec",
+    "orangutan", "orlosup", "oryx", "cibetka", "tarantule", "sklípkan",
+    "pelikán", "pěnkava", "plameňák", "plejtvák", "surikata",
+    "pstruh", "pštros", "parma", "racek", "rejnok",
+    "krajta", "čolek", "svišť", "sysel", "tapír",
+    "tukan", "tuleň", "okounek", "sumec", "veverka",
+    "vrána", "žirafa", "žížala", "želva", "žralok",
+    "žluva", "zubřík", "čmelák", "čížek", "hlavatka",
+    "tolstolobik", "medojed", "krtonožka","mýval", "vydra", "jezevec"];
+let flora = [
+    "ananas", "angrešt", "bazalka", "borovice", "borůvka", "broskev", "podběl",
+    "brusinka", "bříza", "celer", "chmel", "cuketa", "fazole", "fíkovník",
+    "granát", "rakytník", "hrušeň", "jalovec", "jabloň", "jasan", "česnek",
+    "jedle", "jahoda", "kapusta", "kopretina", "kaktus", "levandule", "limeta",
+    "mandloň", "malina", "pšenice", "meduňka", "mrkev", "ostružina", "oliva",
+    "osika", "petržel", "pomeranč", "pórek", "rajče", "rozmarýn", "rakytník",
+    "sakura", "salát", "šalvěj", "špenát", "švestka", "třešeň", "tulipán",
+    "tykev", "topol", "dobromysl", "puškvorec", "netykavka", "kokotice", "kukuřice",
+    "banánovník", "jinan", "modřín", "ostřice", "chvojník", "kávovník", "kakao"];
+let home = [
+    "pohovka", "polštář", "skříňka", "žehlička", "lednička", "pračka", "koupelna",
+    "zrcadlo", "sklenice", "lampička", "dekorace", "kuchyňka", "košilka", "koberec",
+    "knihovna", "přikrývka", "zásuvka", "závěsy", "hrneček", "šatník", "polička",
+    "ubrousek", "kávovar", "okenice", "žaluzie", "botník", "postel", "peřina",
+    "lůžkovina", "vysavač", "lampička", "obraz", "čajník", "rukavice", "hračka",
+    "osuška", "ručník", "stolek", "zahrada", "truhlík", "svíčka", "košile",
+    "baterie", "miska", "topení", "mikrovlnka", "skleník", "hodiny", "zástěra",
+    "květina", "taburet", "dřevěnka", "záclona", "špachtle", "svícen", "ovladač",
+    "příborník", "kobka", "nádoba", "kalhoty", "obrus", "konvice", "váleček",
+    "podložka", "tabule", "ramínko", "plyšák", "míchačka", "prsten", "kuchyně",
+    "matrace", "ložnice", "klávesnice"];
+let jobs = [
+    "architekt", "automechanik", "bankéř", "biolog", "chemik", "cukrář", "dentista",
+    "elektrikář", "farmaceut", "filolog", "grafik", "inženýr", "kadeřník", "kameraman",
+    "knihovník", "lékárník", "malíř", "mechanik", "modelář", "novinář", "obchodník",
+    "opravář", "pediatr", "policista", "pomocník", "programátor", "psycholog", "redaktor",
+    "skladník", "soudce", "stavebník", "strojník", "technik", "tiskař", "učitel",
+    "veterinář", "zahradník", "zedník", "zpěvák", "zubař", "žurnalista", "biomedik",
+    "chirurg", "designer", "farmář", "fotograf", "geolog", "hydraulik", "informatic",
+    "kuchař", "laborant", "logistik", "manažer", "meteorolog", "mužský herec",
+    "nákupčí", "obráběč", "operátor", "pedagog", "politik", "právník", "recepční",
+    "režisér", "sociolog", "sportovec", "statistik", "strojvedoucí", "technolog",
+    "výtvarník", "zásobovač", "zdravotník", "železničář", "živnostník", "biochemik",
+    "diagnostik", "ekonom", "historik", "instalátor", "jazykovědec"];
+let staty = [
+    "Argentina", "Austrálie", "Belgie", "Brazílie", "Bulharsko", "Dominika",
+    "Estonsko", "Etiopie", "Francie", "Guatemala", "Honduras", "Indonésie",
+    "Itálie", "Jamajka", "Japonsko", "Jordánsko", "Kamerun", "Kanada",
+    "Kolumbie", "Kuvajt", "Lucembursko", "Maďarsko", "Malajsie", "Maroko",
+    "Moldavsko", "Mongolsko", "Namibie", "Německo", "Nizozemsko", "Panama",
+    "Polsko", "Portugalsko", "Rakousko", "Rumunsko", "Senegal", "Singapur",
+    "Slovensko", "Slovinsko", "Srbsko", "Sýrie", "Španělsko", "Švédsko",
+    "Švýcarsko", "Tanzanie", "Thajsko", "Tunisko", "Turecko", "Uganda",
+    "Ukrajina", "Uruguay", "Venezuela", "Vietnam", "Zambie", "Zimbabwe",
+    "Albánie", "Andorra", "Angola", "Bahamy", "Bahrajn", "Barbados", "Belize",
+    "Bhútán", "Bolívie", "Botswana", "Burundi", "Džibutsko", "Eritrea", "Fidži",
+    "Česko"];
+let vse = fauna.concat(flora, home, jobs, staty);
+
+const categories = {
+  "1": fauna,
+  "2": flora,
+  "3": home,
+  "4": jobs,
+  "5": staty,
+  "6": vse
+};
+
+const hangman = [
+`  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n=========`,
+`  +---+\n  |   |\n  O   |\n /|\\  |\n /    |\n      |\n=========`,
+`  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n=========`,
+`  +---+\n  |   |\n  O   |\n /|   |\n      |\n      |\n=========`,
+`  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========`,
+`  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========`,
+`  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========`
+];
+
+let stage = 6;
+let word = "";
+let correct = [];
+let wrong = [];
+let gameStarted = false;
+
+function println(text = "") {
+  output.textContent += text + "\n";
+  output.scrollTop = output.scrollHeight;
+}
+
+function clear() {
+  output.textContent = "";
+}
+
+function promptCategory() {
+  println("Vítejte ve hře Šibenice! Hra obsahuje několik set slov včetně české diakritiky. Přeji příjemnou zábavu.");
+  println("Zvol si okruh slov. Napiš:");
+  println("1 pro Faunu\n2 pro Flóru\n3 pro Domácnost\n4 pro Povolání\n5 pro Názvy států\n6 pro všechny okruhy");
+}
+
+function handleInput() {
+  const input = userInput.value.trim();
+  userInput.value = "";
+
+  if (!gameStarted) {
+    if (categories[input]) {
+      const selected = categories[input];
+      word = selected[Math.floor(Math.random() * selected.length)].toLowerCase();
+      correct = [];
+      wrong = [];
+      stage = 6;
+      gameStarted = true;
+      println(`Zvolil sis okruh ${input}. Slovo má ${word.length} písmen.`);
+      println(hangman[stage]);
+      println(getDisplay());
+      println("Hádej písmeno:");
+    } else {
+      println("Neplatná volba. Zkus to znovu.");
+    }
+    return;
+  }
+
+  if (input.length !== 1 || !/^[a-zá-žčěšřžýůúňďť]$/i.test(input)) {
+    println("Zadej prosím jedno písmeno.");
+    return;
+  }
+
+  const guess = input.toLowerCase();
+  if (correct.includes(guess) || wrong.includes(guess)) {
+    println("Toto písmeno už jsi zkoušel.");
+    return;
+  }
+
+  if (word.includes(guess)) {
+    correct.push(guess);
+    println("Správně!");
+  } else {
+    wrong.push(guess);
+    stage--;
+    println("Písmeno není ve slově!");
+  }
+
+  println(hangman[stage]);
+  const current = getDisplay();
+  println(current);
+
+  if (!current.includes("_")) {
+    println(`**********Vyhrál jsi! Je to "${word}".**********`);
+    gameStarted = false;
+    promptCategory();
+  } else if (stage === 0) {
+    println("**********Prohrál jsi!**********");
+    println(`Hádané slovo bylo "${word}".`);
+    gameStarted = false;
+    promptCategory();
+  } else {
+    println(`Zbývá ${stage} ze 6 pokusů.`);
+    println("Hádej další písmeno:");
+  }
+}
+
+function getDisplay() {
+  return word.split("").map(l => (correct.includes(l) ? l : "_")).join(" ");
+}
+
+// Umožnit potvrzení stiskem Enter
+userInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handleInput();
+  }
+});
+
+promptCategory();
+userInput.focus();
+</script>
+</body>
+</html>

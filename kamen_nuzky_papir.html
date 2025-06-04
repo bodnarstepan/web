@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kámen, Nůžky, Papír – Konzolová verze</title>
+  <link rel="icon" href="obrazky/favicon.ico" type="image/x-icon">
+  <style>
+    body {
+      background-color: #111;
+      color: #0f0;
+      font-family: monospace;
+      padding: 20px;
+    }
+    input {
+      background-color: #111;
+      color: #0f0;
+      border: none;
+      border-bottom: 1px solid #0f0;
+      font-family: monospace;
+      font-size: 16px;
+      outline: none;
+      width: 30px;
+      margin-right: 10px;
+    }
+    pre {
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <pre id="console">
+Kámen, nůžky nebo papír?
+Napiš 0 pro kámen, 1 pro nůžky, 2 pro papír:</pre>
+  <input type="text" id="userInput" maxlength="1" autofocus />
+
+  <script>
+    const kamen = `
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)`;
+
+    const nuzky = `
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)`;
+
+    const papir = `
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)`;
+
+    const symboly = [kamen, nuzky, papir];
+
+    function runGame() {
+      const vstup = document.getElementById("userInput").value;
+      const vystup = document.getElementById("console");
+      let out = vystup.innerText + "\n> " + vstup + "\n\n";
+
+      if (!["0", "1", "2"].includes(vstup)) {
+        out += "Neplatná volba, opakuj program!";
+        vystup.innerText = out;
+        return;
+      }
+
+      const volba_hrace = parseInt(vstup);
+      const volba_cpu = Math.floor(Math.random() * 3);
+
+      out += `Zvolil jsi:\n${symboly[volba_hrace]}\n\nPočítač zvolil:\n${symboly[volba_cpu]}\n\n`;
+
+      if (volba_hrace === volba_cpu) {
+        out += "Je to remíza!";
+      } else if (
+        (volba_hrace === 0 && volba_cpu === 1) ||
+        (volba_hrace === 1 && volba_cpu === 2) ||
+        (volba_hrace === 2 && volba_cpu === 0)
+      ) {
+        out += "Vyhrál jsi!";
+      } else {
+        out += "Prohrál jsi!";
+      }
+
+      vystup.innerText = out;
+      document.getElementById("userInput").value = "";
+      document.getElementById("userInput").focus();
+    }
+
+    document.getElementById("userInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        runGame();
+      }
+    });
+  </script>
+</body>
+</html>

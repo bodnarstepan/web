@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dovednosti – Štěpán Bodnár</title>
+  <link href="styl.css" rel="stylesheet"/>
+  <link rel="icon" href="obrazky/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <img alt="Logo" src="obrazky/logo.png"/>
+      <div>
+        <h1>ŠTĚPÁN BODNÁR</h1>
+        <p>Webdeveloper a Python programátor</p>
+      </div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">☰</button>
+    <nav class="nav" id="nav">
+      <a href="index.html">Úvodní stránka</a>
+      <a href="dovednosti.html">Dovednosti</a>
+      <a href="projekty.html">Projekty</a>
+    </nav>
+  </header>
+
+  <main class="skills-page">
+    <h2>Dovednosti</h2>
+    <div class="skill-block alt">
+      <img alt="HTML logo" src="obrazky/html.png"/>
+      <div>
+        <h3>HTML</h3>
+        <p>Zvládám základy HTML pro tvorbu jednoduchých webových stránek. Umím strukturovat obsah pomocí značek a znám základní principy sémantiky. Využívám HTML při vytváření projektů v rámci kurzů a vlastního portfolia.</p>
+      </div>
+    </div>
+    <div class="skill-block">
+      <img alt="CSS logo" src="obrazky/css.png"/>
+      <div>
+        <h3>CSS</h3>
+        <p>Dokážu stylovat stránky pomocí základních CSS pravidel. Pracuji s barvami, rozvržením, texty i box modely. Učím se využívat flexbox a grid pro responzivní design a ladím stylování tak, aby působilo čistě a přehledně.</p>
+      </div>
+    </div>
+    <div class="skill-block alt">
+      <img alt="Python logo" src="obrazky/python.png"/>
+      <div>
+        <h3>Python</h3>
+        <p>Python je můj hlavní jazyk, ve kterém se aktivně vzdělávám. Ovládám základy syntaxe, práci s proměnnými, cykly, podmínkami i funkcemi. Postupně pronikám do práce s databázemi, frameworky a objektově orientovaného programování.</p>
+      </div>
+    </div>
+    <div class="skill-block">
+      <img alt="SQL logo" src="obrazky/sql.png"/>
+      <div>
+        <h3>SQL</h3>
+        <p>S SQL teprve začínám, ale mám základní přehled o práci s relačními databázemi. Umím vytvářet jednoduché dotazy pro výběr dat pomocí příkazu SELECT a chápu základní principy struktury tabulek. Postupně se učím další možnosti filtrování a práci s více tabulkami.</p>
+      </div>
+    </div>
+  </main>
+
+  <section class="stack">
+    <h2>Technologický stack</h2>
+    <div class="stack-icons grid-8">
+      <img alt="VS Code" src="obrazky/vsc.png"/>
+      <img alt="PostgreSQL" src="obrazky/postgre.png"/>
+      <img alt="GitHub" src="obrazky/github.png"/>
+      <img alt="SQLite" src="obrazky/sqlite.png"/>
+      <img alt="Bootstrap" src="obrazky/bootstrap.png"/>
+      <img alt="OpenAI" src="obrazky/gpt.png"/>
+      <img alt="PyCharm" src="obrazky/pycharm.png"/>
+      <img alt="Shopify" src="obrazky/shopify.png"/>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>© Štěpán Bodnár 2025</p>
+  </footer>
+
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      document.getElementById('nav').classList.toggle('active');
+    });
+    
+    const revealElements = document.querySelectorAll('.skills-page, .skill-block, .stack');
+
+    const revealOnScroll = () => {
+      const triggerBottom = window.innerHeight * 0.85;
+      revealElements.forEach(el => {
+        const boxTop = el.getBoundingClientRect().top;
+        if (boxTop < triggerBottom) {
+          el.style.opacity = 1;
+          el.style.transform = 'translateY(0)';
+        }
+      });
+    };
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', () => {
+      revealElements.forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(50px)';
+        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      });
+      revealOnScroll();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projekty – Štěpán Bodnár</title>
+  <link href="styl.css" rel="stylesheet"/>
+  <link rel="icon" href="obrazky/favicon.ico" type="image/x-icon">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <img alt="Logo" src="obrazky/logo.png"/>
+      <div>
+        <h1>ŠTĚPÁN BODNÁR</h1>
+        <p>Webdeveloper a Python programátor</p>
+      </div>
+    </div>
+    <button class="menu-toggle" id="menu-toggle">☰</button>
+    <nav class="nav" id="nav">
+      <a href="index.html">Úvodní stránka</a>
+      <a href="dovednosti.html">Dovednosti</a>
+      <a href="projekty.html">Projekty</a>
+    </nav>
+  </header>
+
+  <main class="projects-page">
+    <h2>Projekty</h2>
+
+    <div class="project-block">
+      <img src="obrazky/opratka.png" alt="Šibenice">
+      <div>
+        <h3>Šibenice</h3>
+        <p>Otestujte svou slovní zásobu v oblíbené hře, jež není třeba sáhodlouze představovat.</p>
+      </div>
+      <a class="btn green" href="sibenice.html">SPUSTIT</a>
+    </div>
+
+    <div class="project-block alt">
+      <img src="obrazky/zamek.png" alt="Generátor hesel">
+      <div>
+        <h3>Generátor hesel</h3>
+        <p>Zapomeňte na „123456“ a vygenerujte si opravdu bezpečné heslo!</p>
+      </div>
+      <a class="btn green" href="hesla.html">SPUSTIT</a>
+    </div>
+
+    <div class="project-block">
+      <img src="obrazky/kalkulacka.png" alt="Kalkulačka spotřeby">
+      <div>
+        <h3>Kalkulačka spotřeby</h3>
+        <p>Za kolik jezdí váš miláček? S touto kalkulačkou si snadno a rychle spočítáte spotřebu svého vozu a cenu na kilometr.</p>
+      </div>
+      <a class="btn green" href="kalkulacka.html">SPUSTIT</a>
+    </div>
+
+    <div class="project-block alt">
+      <img src="obrazky/knp.png" alt="Kámen, nůžky, papír">
+      <div>
+        <h3>Kámen, nůžky, papír</h3>
+        <p>Zahrajte si populární hru, která v dětství rozhodovala o vašem osudu. Dokážete obehrát počítač?</p>
+      </div>
+      <a class="btn green" href="kamen_nuzky_papir.html">SPUSTIT</a>
+    </div>
+  </main>
+
+  <section class="construction">
+    <h2>Další projekty se chystají!</h2>
+    <img class="construction-icon" src="obrazky/znacka.png" alt="Under construction">
+  </section>
+
+  <footer class="footer">
+    <p>© Štěpán Bodnár 2025</p>
+  </footer>
+
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', function () {
+      document.getElementById('nav').classList.toggle('active');
+    });
+
+    const revealElements = document.querySelectorAll('.projects-page, .project-block, .construction');
+    const revealOnScroll = () => {
+      const triggerBottom = window.innerHeight * 0.85;
+      revealElements.forEach(el => {
+        const boxTop = el.getBoundingClientRect().top;
+        if (boxTop < triggerBottom) {
+          el.style.opacity = 1;
+          el.style.transform = 'translateY(0)';
+        }
+      });
+    };
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', () => {
+      revealElements.forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(50px)';
+        el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      });
+      revealOnScroll();
+    });
+  </script>
+</body>
+</html>

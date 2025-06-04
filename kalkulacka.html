@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kalkulátor spotřeby paliva</title>
+  <link rel="icon" href="obrazky/favicon.ico" type="image/x-icon">
+  <style>
+    body {
+      background: #111;
+      color: #0f0;
+      font-family: monospace;
+      padding: 2rem;
+      white-space: pre-wrap;
+    }
+    input {
+      background: #000;
+      color: #0f0;
+      border: 1px solid #0f0;
+      padding: 4px;
+      font-family: monospace;
+      font-size: 1rem;
+      width: 80px;
+      margin-right: 0.5rem;
+    }
+    #console {
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <div id="console"></div>
+
+  <script>
+    const consoleDiv = document.getElementById("console");
+
+    async function askFloat(question) {
+      return new Promise((resolve) => {
+        const input = document.createElement("input");
+        const label = document.createElement("span");
+        label.textContent = `\n${question}\n> `;
+        consoleDiv.appendChild(label);
+        consoleDiv.appendChild(input);
+        input.focus();
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") {
+            const value = input.value;
+            const num = parseFloat(value);
+            if (isNaN(num) || num <= 0) {
+              label.textContent += value + "\nZadaná hodnota musí být kladné číslo větší než 0. Zkuste to prosím znovu.";
+              input.remove();
+              askFloat(question).then(resolve);
+            } else {
+              label.textContent += value;
+              input.remove();
+              resolve(num);
+            }
+          }
+        });
+      });
+    }
+
+    async function main() {
+      consoleDiv.textContent += `Vítejte v kalkulátoru spotřeby vozidla. Dle návodu níže můžete s pomocí této kalkulačky orientačně spočítat spotřebu paliva vašeho vozu.\n1) Natankujte plnou nádrž\n2) Vynulujte počet najetých km (trip meter)\n3) Po ujetí určité vzdálenosti (ideálně alespoň 100 km) si poznamenejte najeté km\n4) Dotankujte plnou nádrž a vezměte si účtenku\n5) Zadejte data do kalkulačky\n`;
+
+      const najete_km = await askFloat("Zadejte počet najetých km:");
+      const dotankovano = await askFloat("Zadejte množství doplněného paliva v litrech:");
+      const cena_phm = await askFloat("Zadejte cenu paliva v Kč:");
+
+      const spotreba = (100 * dotankovano) / najete_km;
+      const cena_na_km = (spotreba / 100) * cena_phm;
+
+      consoleDiv.textContent += `\n\nSpotřeba na 100 km je ${spotreba.toFixed(2)} litrů.`;
+      consoleDiv.textContent += `\nCena za 1 km je ${cena_na_km.toFixed(2)} Kč.`;
+    }
+
+    main();
+  </script>
+</body>
+</html>
